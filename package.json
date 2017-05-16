@@ -1,0 +1,24 @@
+{
+  "name": "chatterbox",
+  "version": "1.0.0",
+  "description": "Using Django, Angular4, Node.js, Socket.io, Redis for basic chat application",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/esaburruss/chatterbox.git"
+  },
+  "author": "Edward Burruss",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/esaburruss/chatterbox/issues"
+  },
+  "homepage": "https://github.com/esaburruss/chatterbox#readme",
+  "dependencies": {
+    "express": "^4.15.2",
+    "redis": "^2.7.1",
+    "socket.io": "^2.0.1"
+  }
+}
