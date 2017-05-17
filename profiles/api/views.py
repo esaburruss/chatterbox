@@ -39,7 +39,7 @@ def login_user(request):
             login(request, user)
             token = get_token(request)
             print(token)
-            return JsonResponse({'login':1,'username':user.username,'csrftoken':token})
+            return JsonResponse({'login':1,'username':user.username,'pk':user.pk,'csrftoken':token})
     else:
         return JsonResponse({'login':0})
 

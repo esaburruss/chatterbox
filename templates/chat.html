@@ -16,16 +16,18 @@
   <script type ="text/javascript" src="http://127.0.0.1:8001/socket.io/socket.io.js"></script>
   <script src="https://code.jquery.com/jquery-1.11.1.js"></script>
   <script>
-    $(function () {
-      var socket = io.connect('http://127.0.0.1:8001');
-      $('#chatForm').submit(function(){
-        socket.emit('chat-message', $('#m').val());
-        $('#m').val('');
-        return false;
-      });
-      socket.on('chat-message', function(msg){
-        $('#messages').append($('<li>').text(msg));
-      });
+  function chatInit(user, id) {
+
+    var socket = io.connect('http://127.0.0.1:8001', {query: 'username=' +user+'&pk=' + id});
+    $('#chatForm').submit(function(){
+      socket.emit('chat-message', $('#m').val());
+      $('#m').val('');
+      return false;
     });
+    socket.on('chat-message', function(msg){
+      $('#messages').append($('<li>').text(msg));
+    });
+    return socket;
+  }
   </script>
 {% endblock %}
