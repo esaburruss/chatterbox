@@ -17,10 +17,13 @@ from django.conf.urls import url, include
 from django.contrib import admin
 from django.views.generic import TemplateView
 from django.contrib.auth import views as auth_views
-from profiles.views import *
+from rest_framework.authtoken import views as rest_framework_views
+#from profiles import urls as profile_urls
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^$', auth_views.LoginView.as_view(template_name='chat.html')),
     url('^', include('django.contrib.auth.urls')),
+    url(r'^', include('profiles.urls')),
+    url(r'^get_auth_token/$', rest_framework_views.obtain_auth_token, name='get_auth_token'),
 ]

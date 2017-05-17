@@ -10,3 +10,30 @@ body {
 #content {
   padding-top:50px;
 }
+
+#ajax-auth {
+  margin-bottom:0px;
+  li {
+    button {
+      margin-bottom: 8.5px;
+      margin-top: 8.5px;
+    }
+  }
+}
+
+.hidden {
+  display: none;
+}
+
+.match-btn {
+  font-size: 14px;
+  padding-bottom: 0px;
+  padding-top: 0px;
+  line-height: 20px;
+  margin-top: 7px;
+  margin-bottom: 6px;
+}
+
+#welcome-message {
+  color: #FFF;
+}

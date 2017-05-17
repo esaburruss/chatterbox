@@ -24,33 +24,118 @@
           <a class="navbar-brand" href="#">Chatterbox - ESA Burruss</a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
-          {% if user.is_authenticated %}
-            <form method="get" action="{% url 'logout' %}" class="navbar-form navbar-right">
-              {% csrf_token %}
-              <label class="form-control">Welcome, {{ user.username }}</label>
-              <button type="submit" value="login" class="btn btn-warning">Log Out</button>
-            </form>
-          {% else %}
-          <form id="form-login" method="post" action="{% url 'login' %}" class="navbar-form navbar-right">
-            {% csrf_token %}
-            <div class="form-group">
-              {{ form.username }}
-            </div>
-            <div class="form-group">
-              {{ form.password }}
-            </div>
-            <button type="submit" value="login" class="btn btn-success">Sign in</button>
-          </form>
-          {% endif %}
+          <ul id="ajax-auth" class="navbar-right list-inline">
+            <li class="logout-nav hidden">
+              <h4 id="welcome-message" class="match-btn"></h4>
+            </li>
+            <li class="login-nav hidden">
+              <form id="form-login" class="navbar-form">
+                {% csrf_token %}
+                <div class="form-group">
+                  <input type="text" name="username" id="username" required class="form-control" />
+                </div>
+                <div class="form-group">
+                  <input type="password" name="password" id="password" required class="form-control" />
+                </div>
+              </form>
+            </li>
+            <li class="login-nav hidden">
+              <button id="login-button" class="btn btn-success">Sign in</button>
+            </li>
+            <li class="logout-nav hidden">
+              <button id="logout-button" class="btn btn-warning">Log Out</button>
+            </li>
+        </ul>
         </div><!--/.navbar-collapse -->
       </div>
     </nav>
     {% block content %}
     {% endblock %}
     <script>
-    $(document).ready(function() {
+      var username;
+      var csrftoken;
+      $(document).ready(function() {
+        {% if user.is_authenticated %}
+          username = "{{ user.username }}";
+          login();
+        {% else %}
+          logout();
+        {% endif %}
 
-    });
+        $('#login-button').on('click', function() {
+          ajaxLogin();
+        });
+
+        $('#logout-button').on('click', function() {
+          ajaxLogout();
+        });
+
+        csrftoken = getCookie('csrftoken');
+      });
+
+      function login() {
+        $("#welcome-message").html("Welcome, " + username);
+        $(".login-nav").addClass("hidden");
+        $(".logout-nav").removeClass("hidden");
+      }
+
+      function logout() {
+        $(".logout-nav").addClass("hidden");
+        $(".login-nav").removeClass("hidden");
+      }
+
+      function ajaxLogin() {
+        var dto = $("#form-login").serialize();
+        dto.csrfmiddlewaretoken = getCookie('csrftoken');
+        var ajaxOptions = {
+          type: "post",
+          url: '/api/login/',
+          data: dto,
+          success: function(x) {
+            if(x.login == 1) {
+              console.log(x);
+              username = x.username;
+              csrftoken = x.csrftoken;
+              login();
+            }
+          }
+        };
+        $.ajax(ajaxOptions);
+      }
+
+      function ajaxLogout() {
+        var ajaxOptions = {
+          type: "get",
+          url: '/api/logout/',
+          data: {'csrfmiddlewaretoken': csrftoken},
+          success: function(x) {
+            console.log(x);
+            if(x.login == 0) {
+              csrftoken = x.csrftoken;
+              $("input[name='csrfmiddlewaretoken']").val(csrftoken);
+              logout();
+            }
+          }
+        };
+        $.ajax(ajaxOptions);
+      }
+
+      function getCookie(name) {
+        var cookieValue = null;
+        if (document.cookie && document.cookie !== '') {
+            var cookies = document.cookie.split(';');
+            for (var i = 0; i < cookies.length; i++) {
+                var cookie = jQuery.trim(cookies[i]);
+                // Does this cookie string begin with the name we want?
+                if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                    break;
+                }
+            }
+        }
+        return cookieValue;
+      }
+
     </script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
     <script src="/static/js/bootstrap.min.js"></script>
