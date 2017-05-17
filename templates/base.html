@@ -59,7 +59,7 @@
       $(document).ready(function() {
         {% if user.is_authenticated %}
           username = "{{ user.username }}";
-          pk = "{{ user.username }}";
+          pk = "{{ user.pk }}";
           login();
         {% else %}
           logout();
