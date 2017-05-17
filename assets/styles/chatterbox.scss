@@ -1,7 +1,12 @@
 $catskillWhite : #eaf0f5;
 $alabaster : #F8F8F8;
 $pickledBluewood : #27344a;
+@import "_bootstrap";
 
 body {
   background-color: $catskillWhite;
+}
+
+#content {
+  padding-top:50px;
 }

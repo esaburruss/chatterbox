@@ -12,3 +12,9 @@ class Profile(models.Model):
     )
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     gender = models.PositiveSmallIntegerField(default=0, choices=GENDER)
+    def __str__(self):
+        return self.user.first_name
+    def firstName(self):
+        return self.user.first_name
+    def lastName(self):
+        return self.user.last_name
