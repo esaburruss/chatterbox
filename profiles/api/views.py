@@ -48,3 +48,8 @@ def logout_user(request):
     token = get_token(request)
     print(token)
     return JsonResponse({'login':0,'csrftoken':token})
+
+def gettoken(request):
+    token = get_token(request)
+    print(token)
+    return JsonResponse({'login':0,'csrftoken':token})
