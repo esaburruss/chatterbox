@@ -25,5 +25,6 @@ urlpatterns = [
     url(r'^$', auth_views.LoginView.as_view(template_name='chat.html')),
     url('^', include('django.contrib.auth.urls')),
     url(r'^', include('profiles.urls')),
+    url(r'^', include('chat.urls')),
     url(r'^get_auth_token/$', rest_framework_views.obtain_auth_token, name='get_auth_token'),
 ]

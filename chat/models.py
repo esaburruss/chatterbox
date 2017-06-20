@@ -18,6 +18,8 @@ class PrivateChat(models.Model):
         for p in self.profiles.all():
             str += p.firstName()
         return str
+    def get_messages(self):
+        return PrivateMessage.objects.filter(chat=self).order_by('timestamp')
 
 class PrivateMessage(models.Model):
     timestamp = models.DateTimeField('timestamp', editable=False, auto_now_add=True)
